@@ -14,10 +14,10 @@ const connections = mysql2.createPool({
 // 连接测试
 connections.getConnection((err, ctx) => {
   if (err) {
-    console.log('数据库连接失败: ', err);
-    logger.error('连接数据库出错_' + err);
+    console.log('MySQL连接失败: ', err);
+    logger.error('连接MySQL出错_' + err);
   } else {
-    console.log('数据库已连接, 端口:', $consts['DB/PORT']);
+    console.log('MySQL连接成功, 端口:', $consts['DB/PORT']);
   }
 })
 

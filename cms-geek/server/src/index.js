@@ -3,7 +3,9 @@ const KoaBody = require('koa-body');
 const KoaStatic = require('koa-static');
 const cors = require('koa2-cors');
 const path = require('path');
+const errorHandler = require('./utils/errorHandle')
 const mapRoutes = require('./router');
+const $consts = require('./constants')
 require('./db');
 
 
@@ -24,8 +26,9 @@ app.use(KoaBody({
 app.use(KoaStatic(path.join(__dirname, 'public')));
 // 注册路由
 mapRoutes(app)
+// 异常监听
+app.on('error', errorHandler)
 
-
-app.listen(3001, () => {
-  console.log('服务在3001端口启动');
+app.listen($consts['CONFIG/PORT'], () => {
+  console.log(`Koa服务启动成功，端口：${$consts['CONFIG/PORT']}`)
 })
