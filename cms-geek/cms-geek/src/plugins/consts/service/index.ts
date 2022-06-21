@@ -1,8 +1,9 @@
 import common from './common'
-
+import config from '@/config'
 
 const consts = {
-  common
+  common,
+  config
 }
 
 
