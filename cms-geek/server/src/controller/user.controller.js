@@ -11,7 +11,8 @@ class UserController {
       ctx.body = {
         isSuccess: true,
         code: 200,
-        Data: {
+        data: {
+          status: true,
           message: '注册成功'
         }
       }
@@ -30,7 +31,8 @@ class UserController {
         ctx.body = {
           isSuccess: true,
           code: 200,
-          Data: {
+          data: {
+            status: true,
             message: `${user_name}登录成功`,
             userInfo: ctx.user,
             token
