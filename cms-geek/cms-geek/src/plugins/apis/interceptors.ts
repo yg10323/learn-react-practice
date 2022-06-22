@@ -4,9 +4,9 @@ const reqSuccess = (reqObj: any) => {
 }
 const reqFailure = (error: any) => { Promise.reject(error) }
 
-const resSuccess = (res: any) => {
-  // todo 相应拦截
-  return res.data
+const resSuccess = ({ data, config }: any) => {
+  // todo 响应拦截
+  return config.fullData ? data : data.Data
 }
 const resFailure = (error: any) => { Promise.reject(error) }
 

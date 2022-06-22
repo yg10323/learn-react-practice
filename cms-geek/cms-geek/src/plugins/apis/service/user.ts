@@ -3,7 +3,7 @@ const user = [
     name: 'register',
     method: 'POST',
     path: '/user/register',
-    param: {
+    params: {
       user_name: '',
       password: ''
     },
@@ -13,10 +13,11 @@ const user = [
     name: 'login',
     method: 'POST',
     path: '/user/login',
-    param: {
+    params: {
       user_name: '',
       password: ''
     },
+    axiosOptions: {},
     desc: '用户登陆'
   },
 ]
