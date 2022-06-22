@@ -9,8 +9,11 @@ class UserController {
       const { user_name, password } = ctx.user;
       const res = await UserService.register(user_name, password)
       ctx.body = {
+        isSuccess: true,
         code: 200,
-        message: '注册成功'
+        Data: {
+          message: '注册成功'
+        }
       }
     } catch (error) {
       logger.error('UserController_reigster：', error)
@@ -25,10 +28,13 @@ class UserController {
       const token = createToken(payload, expire);
       if (token) {
         ctx.body = {
+          isSuccess: true,
           code: 200,
-          message: `${user_name}登录成功`,
-          userInfo: ctx.user,
-          token
+          Data: {
+            message: `${user_name}登录成功`,
+            userInfo: ctx.user,
+            token
+          }
         }
       }
     } catch (error) {
