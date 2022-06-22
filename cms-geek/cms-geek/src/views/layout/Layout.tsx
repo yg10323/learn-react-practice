@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
-import { $api } from '@/plugins'
+import { $api, $consts } from '@/plugins'
 
 const Layout = () => {
+
+  console.log($consts['CONFIG/PROCESS_ENV'])
+
   const loginTest = (user_name: string, password: string) => {
     $api['user/login']({
       user_name,

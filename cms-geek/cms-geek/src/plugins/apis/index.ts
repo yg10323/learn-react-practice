@@ -1,6 +1,7 @@
 import axios from './axios'
 import APIS from './service'
-import { API_CONFIG, AXIOS_CONFIG } from './config'
+import { getBaseUrl } from '@/utils/tools'
+import { API_CONFIG } from './config'
 import { isEmpty, assign, pick } from 'lodash'
 
 type Options = {
@@ -83,8 +84,8 @@ class MakeApi {
           const _finalParams = outerOptions.pickParams ? pick(_params, Object.keys(params)) : _params
           // 动态 url 处理
           const url = _replaceUrlParams(apiUrl, _params)
-          // 暂留 封装 baseURL 的获取
-          const baseURL = AXIOS_CONFIG.baseURL + prefix
+          // 获取当前环境对应的 baseURL
+          const baseURL = getBaseUrl(prefix)
           return axios(_normalize({
             baseURL,
             url,

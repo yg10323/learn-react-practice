@@ -9,7 +9,6 @@ export const API_CONFIG = {
 }
 
 export const AXIOS_CONFIG = {
-  baseURL: 'http://localhost:4410',
   timeout: 5000,
   headers: {
     "Content-Type": "application/json;charset=utf-8"
