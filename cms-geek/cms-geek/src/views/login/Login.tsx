@@ -1,11 +1,16 @@
 import React from 'react'
-import { Card, Button, Checkbox, Form, Input, message } from 'antd';
+import { useHistory } from 'react-router-dom'
+import { Card, Button, Checkbox, Form, Input, message } from 'antd'
+import { commonStore } from '@/store'
+
 import '@/styles/views/login.less'
 
 const Login = () => {
+  const history = useHistory()
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const onFinish = async (values: any) => {
+    const status = await commonStore.login(values.username, values.password)
+    status && history.push('/')
   };
 
   return (
@@ -32,7 +37,6 @@ const Login = () => {
                 我已阅读并同意「用户协议」和「隐私条款」
               </Checkbox>
             </Form.Item>
-
             <Form.Item>
               <Button type="primary" htmlType="submit" size="large" block>
                 登录

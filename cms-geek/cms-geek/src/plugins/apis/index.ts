@@ -1,12 +1,13 @@
 import axios from './axios'
 import APIS from './service'
-import { getBaseUrl } from '@/utils/tools'
+import { getBaseUrl, handleToken } from '@/utils/tools'
 import { API_CONFIG } from './config'
 import { isEmpty, assign, pick } from 'lodash'
 
 type Options = {
   sep: string,
-  prefix: string,
+  prefixPath: string,
+  prefixToken: string,
   debug: boolean
 }
 
@@ -52,7 +53,7 @@ class MakeApi {
   }
 
   __build (namespace: string, config: any[]) {
-    const { sep, prefix, debug } = this.options
+    const { sep, prefixPath, prefixToken, debug } = this.options
     config.forEach((item: ConfigItem) => {
       const { name, method, path, params, axiosOptions } = item
       const apiName = `${namespace}${sep}${name}`
@@ -85,13 +86,13 @@ class MakeApi {
           // 动态 url 处理
           const url = _replaceUrlParams(apiUrl, _params)
           // 获取当前环境对应的 baseURL
-          const baseURL = getBaseUrl(prefix)
+          const baseURL = getBaseUrl(prefixPath)
           return axios(_normalize({
             baseURL,
             url,
             method,
             ..._outerOptions
-          }, _finalParams))
+          }, _finalParams, prefixToken))
         }
       })
     })
@@ -117,14 +118,19 @@ const _replaceUrlParams = (url: string, data: any) => {
  * @param data 请求携带的参数: data(POST), params(GET)
  * @returns 
  */
-const _normalize = (options: any, data: any) => {
+const _normalize = (options: any, data: any, prefixToken: string) => {
   const method = options.method.toUpperCase()
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
     options.data = data
   } else {
     options.params = data
   }
+  // 统一添加token
+  options.headers = {
+    // Authorization: 'Bearer ' 或 'Bearer eyJhbGciOiJSUzI1NiIs...(token字符串)'
+    Authorization: `${prefixToken}${handleToken('getToken') || ''}`
 
+  }
   return options
 }
 

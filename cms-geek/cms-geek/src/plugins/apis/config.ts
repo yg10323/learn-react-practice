@@ -3,7 +3,9 @@ export const API_CONFIG = {
   // 分隔符
   sep: '/',
   // 请求前缀，用于版本控制
-  prefix: '/api',
+  prefixPath: '/api',
+  // 携带token的前缀
+  prefixToken: 'Bearer ',
   // 是否开启控制台conlose打印, 发布时关闭
   debug: true
 }

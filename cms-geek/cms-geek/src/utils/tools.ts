@@ -1,5 +1,27 @@
 import { $consts } from '@/plugins'
 
+
+/**
+ * 使用localStorage存取token
+ * @param method 操作方式：存入/读取
+ * @param token 
+ */
+export const handleToken = (method: string, token?: string) => {
+  let res;
+  switch (method) {
+    case 'setToken':
+      res = localStorage.setItem($consts['COMMON/KEY_TOKEN'], token as string);
+      break
+    case 'getToken':
+      res = localStorage.getItem($consts['COMMON/KEY_TOKEN']);
+      break;
+    default:
+      localStorage.clear()
+  }
+  return res
+}
+
+
 /**
  * 获取当前环境对应的基础请求地址
  * @param prefix 接口的分隔符, 用于接口的版本维护

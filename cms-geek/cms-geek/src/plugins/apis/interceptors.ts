@@ -6,7 +6,7 @@ const reqFailure = (error: any) => { Promise.reject(error) }
 
 const resSuccess = ({ data, config }: any) => {
   // todo 响应拦截
-  return config.fullData ? data : data.Data
+  return config.fullData ? data : data.data
 }
 const resFailure = (error: any) => { Promise.reject(error) }
 
