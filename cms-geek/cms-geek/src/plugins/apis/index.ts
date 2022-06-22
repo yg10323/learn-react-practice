@@ -98,7 +98,6 @@ class MakeApi {
   }
 }
 
-
 /**
  * 动态url中的参数替换
  * 例如: path: /user/:id, outerParam: { id: 1 }, 则最终: path: /user/1
@@ -111,7 +110,6 @@ const _replaceUrlParams = (url: string, data: any) => {
     return data[key]
   })
 }
-
 
 /**
  * 决定axios请求携带的参数是 data(POST), 还是 params(GET)
