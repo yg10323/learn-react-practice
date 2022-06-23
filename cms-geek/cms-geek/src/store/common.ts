@@ -12,6 +12,10 @@ class CommonStore {
     makeAutoObservable(this)
   }
 
+  get isLogin () {
+    return !!handleToken('getToken')
+  }
+
   login (user_name: string, password: string) {
     return $api['user/login']({
       user_name,

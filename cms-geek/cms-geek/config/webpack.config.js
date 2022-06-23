@@ -168,7 +168,26 @@ module.exports = function (webpackEnv) {
         },
       },
     ].filter(Boolean);
-    if (preProcessor) {
+    if (preProcessor && preProcessor === 'less-loader') {
+      loaders.push(
+        {
+          loader: require.resolve('resolve-url-loader'),
+          options: {
+            sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+            root: paths.appSrc,
+          },
+        },
+        {
+          loader: require.resolve(preProcessor),
+          options: {
+            lessOptions: {
+              javascriptEnabled: true,
+              sourceMap: true
+            }
+          },
+        }
+      );
+    } else if (preProcessor) {
       loaders.push(
         {
           loader: require.resolve('resolve-url-loader'),
