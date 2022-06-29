@@ -48,3 +48,18 @@ export const getBaseUrl = (prefix: string = $consts['CONFIG/API_DEAULT_PREFIX'])
 export const getApiUrl = (path: string) => {
   return `${getBaseUrl()}${path}`
 }
+
+/**
+ * 根据query参数动态拼接url
+ * @param path url相对地址
+ * @param params query参数
+ */
+export const concatQueryUrl = (path: string, params: any) => {
+  let url = `${getApiUrl(path)}?`
+  const queryArr = [] as any
+  for (const [key, value] of Object.entries(params)) {
+    queryArr.push(`${key}=${value}`)
+  }
+  url += queryArr.join('&')
+  return url
+}
