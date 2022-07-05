@@ -1,44 +1,34 @@
-import React, { useState } from 'react'
-import ExportToExcel from '@/components/common/ExportToExcel'
-import { Table } from 'antd'
-import { dataSource, columns } from './data'
+import { Table } from 'antd';
+import { useState } from 'react';
+import { ExportToExcel } from '@/components'
+import { data, columns } from './data'
+
+
 
 const Main = () => {
-  // 页码
-  const [pagination, setPagination] = useState<any>([1, 10])
-  const paginationProps = {
-    current: pagination[0],
-    onChange: (page: number, pageSize: number) => setPagination([page, pageSize])
-  }
-
-  // 选择的序号
-  const [selectRowKeys, setSelectRowKeys] = useState<any>([])
-
-  const rowSelectionProps = {
-    selectRowKeys,
-    onChange: (keys: any[]) => setSelectRowKeys(keys)
-  }
+  const [dataSource, setDataSource] = useState<any>([])
+  const rowSelection = {
+    onChange: (keys: any[], rows: any[]) => {
+      setDataSource(rows)
+    }
+  };
 
   return (
     <div>
-      Main
       <ExportToExcel
+        tableID='table-export'
         columns={columns}
         dataSource={dataSource}
-        pagination={pagination}
-        selectedKeys={selectRowKeys}
-        queryParams={{ name: 1, age: 2 }}
       />
-
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        pagination={paginationProps}
-        rowSelection={rowSelectionProps}
-        rowKey={(record: any) => record.name}
-      />
+      <div className='table-export'>
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={data}
+        />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
