@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 import ReactDOM from 'react-dom';
-import { Dropdown, Menu, Space, Table, message } from 'antd';
+import { Dropdown, Menu, Table, message } from 'antd';
+import { MoreOutlined } from '@ant-design/icons';
 import XLSX from 'xlsx'
 
 type Props = {
@@ -24,8 +25,9 @@ const ExportToExcel = (props: Props) => {
   // 构建table
   const createTable = (dataSource: any = null) => {
     // 过滤操作相关的列
-    let columns = [...props.columns || []]
-    columns = columns.length ? columns.filter((column: any) => column.key !== 'filterKey') : columns
+    // let columns = [...props.columns || []] => [...undefined || []] =? []
+    let columns = (props.columns && [...props.columns]) || []
+    columns = columns.filter((column: any) => column.key !== 'filterKey')
     let wrapperEle: any = document.createElement('div')
     // react 17
     ReactDOM.render(
@@ -38,30 +40,36 @@ const ExportToExcel = (props: Props) => {
       wrapperEle
     )
     let tableDom: any = wrapperEle.querySelector('table')
-    wrapperEle = undefined
-
     exportToExcel(tableDom)
+
+    wrapperEle = undefined
   }
 
   // 按条件导出
-  const [totalDataSource, setTotalDataSource] = useState<any>([])
+  const totalDataSource = useRef<any[]>([])
   const queryExport = (pageOptions: any = { PageIndex: 1, Limit: 1000 }) => {
-    props.remoteMethod ? props.remoteMethod().then((data: any) => {
-      const { dataSource, total } = data
-      const { PageIndex, Limit } = pageOptions
-      setTotalDataSource([...totalDataSource, ...dataSource])
-      if (PageIndex * Limit < total) {
-        queryExport({ PageIndex: PageIndex + 1, Limit })
-      } else {
-        createTable(totalDataSource)
-        setTotalDataSource([])
-      }
-    }) : message.error('缺少remoteMethod')
+    if (props.remoteMethod) {
+      props.remoteMethod({ pageOptions }).then((data: any) => {
+        const { dataSource, total } = data
+        const { PageIndex, Limit } = pageOptions
+        totalDataSource.current = totalDataSource.current.concat(dataSource)
+        if (PageIndex * Limit < total) {
+          queryExport({ PageIndex: PageIndex + 1, Limit })
+        } else {
+          createTable(totalDataSource)
+          totalDataSource.current = []
+        }
+      })
+    } else if (props.dataSource?.length) {
+      createTable()
+    } else {
+      message.error('缺少remoteMethod')
+    }
   }
 
   // 导出当前页
   const currentExport = () => {
-    let tableDom: any = document.querySelector(`.${props.tableID}`)?.querySelector('table')
+    let tableDom: any = document.querySelector(`#${props.tableID}`)?.querySelector('table')
     tableDom ? exportToExcel(tableDom) : message.error('缺少tableID')
   }
 
@@ -95,25 +103,21 @@ const ExportToExcel = (props: Props) => {
           key: 'query',
         },
         {
-          label: '导出当前页',
-          key: 'current',
-        },
-        {
           label: '按选择导出',
           key: 'select',
-          disabled: props.dataSource?.length ? false : true
+          disabled: !props.dataSource?.length
         },
       ]}
     />
   );
 
   return (
-    <Space>
-      {/* 点击导出按钮默认导出当前页 */}
-      <Dropdown.Button onClick={() => handleMenuClick({ key: 'current' })} overlay={menu}>
-        导出
-      </Dropdown.Button>
-    </Space>
+    < Dropdown.Button
+      icon={<MoreOutlined />}
+      onClick={() => handleMenuClick({ key: 'current' })}
+      overlay={menu} >
+      导出
+    </ Dropdown.Button >
   )
 }
 

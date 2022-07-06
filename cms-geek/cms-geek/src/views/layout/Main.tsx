@@ -20,7 +20,7 @@ const Main = () => {
         columns={columns}
         dataSource={dataSource}
       />
-      <div className='table-export'>
+      <div id='table-export'>
         <Table
           rowSelection={rowSelection}
           columns={columns}
