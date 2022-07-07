@@ -2,6 +2,7 @@
 export { default as ExportToExcel } from './common/ExportToExcel'
 export { default as Chart } from './common/Chart'
 export { default as EasyModal } from './common/EasyModal'
+export { default as NowTime } from './common/NowTime'
 
 // context变量
 export { ModalContext } from './common/EasyModal'

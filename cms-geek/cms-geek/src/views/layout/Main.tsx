@@ -82,6 +82,22 @@
 // }
 
 
+/**
+ * NowTime
+ * @returns 
+ */
+// import { NowTime } from "@/components";
+
+// const Main = () => {
+//   return (
+//     <div>
+//       Main
+//       <NowTime />
+//     </div>
+//   )
+// }
+
+
 const Main = () => {
   return (
     <div>
