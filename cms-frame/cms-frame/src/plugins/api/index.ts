@@ -1,6 +1,6 @@
 import axios from './axios'
 import APIS from './service'
-import { getBaseUrl, handleToken } from '@/utils/tools'
+import { getBaseUrl } from 'src/utils/tools'
 import { API_CONFIG } from './config'
 import { isEmpty, assign, pick } from 'lodash'
 
@@ -128,7 +128,7 @@ const _normalize = (options: any, data: any, prefixToken: string) => {
   // 统一添加token
   options.headers = {
     // Authorization: 'Bearer ' 或 'Bearer eyJhbGciOiJSUzI1NiIs...(token字符串)'
-    Authorization: `${prefixToken}${handleToken('getToken') || ''}`
+    // Authorization: `${prefixToken}${handleToken('getToken') || ''}`
 
   }
   return options

@@ -1,5 +1,7 @@
-const consts = {
+import config from 'src/config'
 
+const consts = {
+  config
 }
 
 

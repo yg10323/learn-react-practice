@@ -1,5 +1,4 @@
-import { $consts } from '@/plugins'
-
+import { $consts } from 'src/plugins'
 
 /**
  * 获取当前环境对应的基础请求地址
