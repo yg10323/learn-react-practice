@@ -17,20 +17,19 @@ const routes = [
         path: '/login',
         component: Login
       },
+      // 在content显示的组件
       {
         path: '/main',
         component: Main,
-        children: [
-          {
-            path: '/page1',
-            component: Page1
-          },
-          {
-            path: '/page2',
-            component: Page2
-          },
-        ]
-      }
+      },
+      {
+        path: '/main/page1',
+        component: Page1
+      },
+      {
+        path: '/main/page2',
+        component: Page2
+      },
     ],
     component: Layout
   }
